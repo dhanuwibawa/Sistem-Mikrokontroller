@@ -65,3 +65,84 @@ void loop() {
 
 Jawab:
 1. 
+<img width="404" height="599" alt="Screenshot 2026-04-15 235913" src="https://github.com/user-attachments/assets/4af33074-d4df-425c-b52b-3f33b7842440" />
+2. Mode INPUT_PULLUP itu digunakan karena di dalam otak Arduino sudah ada resistor bawaan. Keuntungannya jadi hemat komponen dan tidak perlu repot untuk merangkai resistor tambahan di breadboard. Selain itu, mode ini menjaga sinyal listrik tetap stabil (tidak naik-turun sendiri karena gangguan dari luar), sehingga pembacaan tombolnya lebih akurat.
+3. Bisa jadi dari fisik barangnya (Hardware) atau dari kodenya (Software): Hardware: Mungkin kabelnya kendor/putus, resistornya rusak, atau memang lampu LED kecil di dalam angka tersebut sudah putus. Software: Mungkin salah mengetik urutan pin di kode, lupa mengatur pin tersebut sebagai OUTPUT, atau salah membuat angka 1 dan 0 di pola datanya.
+4. 
+```
+#include <Arduino.h>
+
+// 7-Segment Common Anode
+// Pin mapping segment: a b c d e f g dp
+const int segmentPins[8] = {7, 6, 5, 11, 10, 8, 9, 4};
+
+// Pin button
+const int btnUp = 2;
+const int btnDown = 3;
+
+int currentNumber = 0;
+
+// Pola digit
+byte digitPattern[16][8] = {
+  {1,1,1,1,1,1,0,0}, //0
+  {0,1,1,0,0,0,0,0}, //1
+  {1,1,0,1,1,0,1,0}, //2
+  {1,1,1,1,0,0,1,0}, //3 
+  {0,1,1,0,0,1,1,0}, //4
+  {1,0,1,1,0,1,1,0}, //5
+  {1,0,1,1,1,1,1,0}, //6
+  {1,1,1,0,0,0,0,0}, //7
+  {1,1,1,1,1,1,1,0}, //8
+  {1,1,1,1,0,1,1,0}, //9
+  {1,1,1,0,1,1,1,0}, //A
+  {0,0,1,1,1,1,1,0}, //b
+  {1,0,0,1,1,1,0,0}, //C
+  {0,1,1,1,1,0,1,0}, //d
+  {1,0,0,1,1,1,1,0}, //E
+  {1,0,0,0,1,1,1,0}  //F
+};
+
+// Fungsi tampil digit (dibalik untuk CA)
+void displayDigit(int num)
+{
+  for(int i=0; i<8; i++)
+  {
+    digitalWrite(segmentPins[i], !digitPattern[num][i]);
+  }
+}
+
+void setup()
+{
+  // Set segment sebagai output
+  for(int i=0; i<8; i++)
+  {
+    pinMode(segmentPins[i], OUTPUT);
+  }
+
+  // Set button
+  pinMode(btnUp, INPUT_PULLUP);
+  pinMode(btnDown, INPUT_PULLUP);
+}
+
+void loop()
+{
+  // Tombol MAJU
+  if(digitalRead(btnUp) == LOW)
+  {
+    currentNumber++;
+    if(currentNumber > 15) currentNumber = 0;
+    delay(200); // debounce sederhana
+  }
+
+  // Tombol MUNDUR
+  if(digitalRead(btnDown) == LOW)
+  {
+    currentNumber--;
+    if(currentNumber < 0) currentNumber = 15;
+    delay(200); // debounce sederhana
+  }
+
+  displayDigit(currentNumber);
+}
+```
+
