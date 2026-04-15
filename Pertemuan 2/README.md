@@ -9,9 +9,9 @@ Jawab :
 1. <img width="443" height="646" alt="Screenshot 2026-04-15 232829" src="https://github.com/user-attachments/assets/b9527214-f189-4c48-8231-30d1283a8a01" />
 2. Programnya akan kebingungan. Di dalam kode hanya menyiapkan daftar pola lampu untuk 16 karakter (angka 0 sampai huruf F). Kalau Arduino diminta membaca data ke-16 atau lebih, dia akan mengambil "sampah memori". Akibatnya, lampu di Seven Segment akan menyala berantakan, atau mikrokontrolernya bisa nge-crash.
 3. Program ini menggunakan tipe Common Anode (Anoda Umum) karena pada tipe ini, lampu LED baru mau menyala kalau dikasih listrik 0 Volt (atau LOW). Di dalam kode, ada tanda seru (!) pada perintah !digitPattern[num][i]. Tanda seru ini mengemukakan perintah: yang tadinya 1 (menyala) diubah jadi 0 (LOW) supaya lampunya benar-benar menyala sesuai tipe Common Anode.
-4. ```
-   #include <Arduino.h>
+4. 
 ```
+#include <Arduino.h>
 const int segmentPins[8] = {7, 6, 5, 11, 10, 8, 9, 4};
 
 // Daftar pola untuk angka 0 sampai F
@@ -55,3 +55,13 @@ void loop() {
   }
 }
 ```
+
+2.6.4 Pertanyaan Praktikum
+
+1. Gambarkan skema rangkaian yang digunakan pada percobaan!
+2. Mengapa pada push button digunakan mode INPUT_PULLUP pada Arduino Uno? Apa keuntungannya dibandingkan rangkaian biasa?
+3. Jika salah satu segmen LED tidak menyala, apa saja kemungkinan penyebabnya dari sisi hardware maupun software?
+4. Modifikasi rangkaian dan program dengan dua push button yang berfungsi sebagai penambahan (increase) dan pengurangan (decrement) pada sistem counter dan memberikan penjelasan disetiap baris kode nya dalam bentuk README.md!
+
+Jawab:
+1. 
